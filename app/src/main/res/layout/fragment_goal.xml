@@ -6,7 +6,9 @@
 	>
 
 	<data>
-
+		<variable
+			name="fragments"
+			type="id.ac.polinema.skor.fragments.GoalFragment" />
 	</data>
 
 	<androidx.constraintlayout.widget.ConstraintLayout
