@@ -31,38 +31,22 @@ public class GoalFragment extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		FragmentGoalBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_goal, container, false);
-		View view = binding.getRoot();
-		final GoalScorer goalScorer = requireArguments().getParcelable("GoalScorer");
-
-		binding.buttonSave.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				onSaveClicked(view);
-			}
-		});
-		binding.buttonCancel.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				onCancelClicked(view);
-			}
-		});
-		return view;
-
+		binding.setFragment(this);
+		binding.setGoalScorer(goalScorer);
+		requestKey = GoalFragmentArgs.fromBundle(getArguments()).getRequestKey();
+		return binding.getRoot();
 	}
 
 	public void onSaveClicked(View view) {
 		Bundle bundle = new Bundle();
-		bundle.putParcelable("GoalScorer", goalScorer);
-
-		Navigation.findNavController(view).navigate(R.id.goal_scorer_action, bundle);
+		bundle.putParcelable(ScoreFragment.SCORER_KEY, goalScorer);
+		getParentFragmentManager().setFragmentResult(requestKey, bundle);
+		Navigation.findNavController(view).navigateUp();
 	}
 
 	public void onCancelClicked(View view) {
-		Bundle bundle = new Bundle();
-		bundle.putParcelable("GoalScorer", goalScorer);
-		Navigation.findNavController(view).navigate(R.id.goal_scorer_action, bundle);
+		Navigation.findNavController(view).navigateUp();
 	}
 }
